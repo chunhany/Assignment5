@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>UFO Adventure</title>
+	    <style>
+        #playingArea{
+            position: absolute;
+            top: 40px;
+            left: 300px;
+            border: 1px solid black;
+            width: 500px;
+            height: 600px;
+            background-color: rgb(0,0,0);
+        }
+        #UFO{
+            position: absolute;
+            top: 568px;
+            left: 228px;
+            width: 32px;
+            height: 32px;
+        }
+        #bullet{
+            position: absolute;
+            top: 35px;
+            left: 200px;
+            width: 5px;
+            height: 5px;
+        }
+		
+        #score{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 500px;
+            height: 30px;
+            font-size: 10pt;
+            color: white;
+            background-color: rgb(0,0,0);
+			text-align: center;
+        }
+		img {
+		width:100%;
+		}
+    </style>
+	
+	<script language="JavaScript">
+	
+			var timer;	
+			var currentScore = 0;
+			var bulletLeft = 200;
+			var bulletTop = 35;
+			var dx = Math.random()*5+2;
+			var dy = 1;
+			var ufoLeft = 234;
+			var ufoTop = 568;
+			
+		
+		function init(){
+			bullet = document.getElementById('bullet');
+			ufo = document.getElementById('UFO');
+			score = document.getElementById('score'); 
+			palyingArea = document.getElementById('playingArea');
+	  
+			document.onkeydown = keyListener;
+	  
+		start();
+	}
+	
+		function start(){
+			detectCollision();
+			moveBullet();
+			updateScore(); 
+			if (contact()) {
+				gameOver();
+			  }else{
+				timer = setTimeout('start()',1);
+			}
+		}
+		
+	function contact(){
+		if(bulletTop > ufoTop && bulletTop < ufoTop + 32){
+			if(bulletLeft +5 > ufoLeft && bulletLeft + 5 < ufoLeft + 32){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+	
+	function gameOver(){
+	  clearTimeout(timer);
+	  score.innerHTML += "      BOOM!!";
+	  score.style.backgroundColor = 'rgb(255,0,0)';
+	  score.style.fontSize = "larger";
+	
+	}
+	
+	function detectCollision(){
+	    if(collisionX()) {
+		   dx = dx * -1;
+		   }
+		if(collisionY()){
+		   dy = dy * -1;
+		   }
+    }
+	
+	function collisionX(){
+	  if (bulletLeft < 4 || bulletLeft > 480){
+	    return true;
+	  }else{
+	    return false;
+	  }
+	}
+	 
+	function collisionY() {
+	  if (bulletTop < 30){
+		return true;
+	  }if(bulletTop > 578){
+		return true;
+	  }else{
+	     return false;
+	   }
+	  }
+	  
+	 function moveBullet() {
+	  bulletLeft += dx;
+	  bulletTop += dy;
+	  bullet.style.left = bulletLeft + 'px';
+	  bullet.style.top = bulletTop + 'px';
+	  }
+	 
+	 function updateScore() {
+	  currentScore += 5;
+	  score.innerHTML = "Score:  " + currentScore;
+		   }
+		
+		function keyListener(e) {
+	if (!e){
+	e = window.event;
+	}
+	 if (e.keyCode==37 && ufoLeft > 5) { <!--Left-->
+	   ufoLeft -= 5;
+	   ufo.style.left = ufoLeft + 'px';
+	 }
+	 if (e.keyCode==39 && ufoLeft < 463) {   <!--Right-->
+	   ufoLeft += 5;
+	   ufo.style.left = ufoLeft + 'px';
+	 }
+	  if (e.keyCode==38 && ufoTop > 35) {    <!--UP-->
+	   ufoTop -= 5;
+	   ufo.style.top = ufoTop + 'px';
+	 }
+	  if (e.keyCode==40 && ufoTop < 568) {    <!--Down-->
+	   ufoTop += 5;
+	   ufo.style.top = ufoTop + 'px';
+	 }
+	}
+	
+	
+	</script>
+	
+	
+	
+	</head>
+ <body onLoad="init()">
+  <h1>Have Fun</h1>
+  <div id="playingArea">
+  <div id="UFO">
+        <img src="UFO.jpg">
+   </div> 
+   
+   <div id="bullet">
+        <img src="bullet.jpg">
+    </div>     
+
+    <div id="score">
+        Score: 0
+    </div>
+  </div>
+</body>
+</html>

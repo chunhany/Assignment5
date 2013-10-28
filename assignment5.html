@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>UFO Adventure</title>
+	    <style>
+        #playingArea{
+            position: absolute;
+            top: 40px;
+            left: 300px;
+            border: 1px solid black;
+            width: 500px;
+            height: 600px;
+            background-color: rgb(0,0,0);
+        }
+        #UFO{
+            position: absolute;
+            top: 568px;
+            left: 228px;
+            width: 32px;
+            height: 32px;
+        }
+        #bullet{
+            position: absolute;
+            top: 35px;
+            left: 200px;
+            width: 5px;
+            height: 5px;
+        }
+		
+		 #bullet1{
+            position: absolute;
+            top: 35px;
+            left: 300px;
+            width: 5px;
+            height: 5px;
+        }
+		
+		 #bullet2{
+            position: absolute;
+            top: 35px;
+            left: 100px;
+            width: 5px;
+            height: 5px;
+        }
+		
+		#bullet3{
+            position: absolute;
+            top: 35px;
+            left: 400px;
+            width: 5px;
+            height: 5px;
+        }
+		
+		 #bullet4{
+            position: absolute;
+            top: 35px;
+            left: 50px;
+            width: 5px;
+            height: 5px;
+        }
+        #score{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 500px;
+            height: 30px;
+            font-size: 10pt;
+            color: white;
+            background-color: rgb(0,0,0);
+			text-align: center;
+        }
+		img {
+		width:100%;
+		}
+    </style>
+	
+	<script language="JavaScript">
+	
+			var bullet;
+			var timer;	
+			var currentScore = 0;
+			var ufoLeft = 234;
+			var ufoTop = 568;
+			//bullet1
+			var bulletLeft = 200;    
+			var bulletTop = 35;
+			var dx = Math.random()*5+2;
+			var dy = Math.random()*6+1;
+			//bullet2
+			var bulletLeft1 = 300;    
+			var bulletTop1 = 35;
+			var dx1 = Math.random()*5+2;
+			var dy1 = Math.random()*6+1;			
+			//bullet3
+			var bulletLeft2 = 100;    
+			var bulletTop2 = 35;
+			var dx2 = Math.random()*5+2;
+			var dy2 = Math.random()*6+1;
+			//bullet4
+			var bulletLeft3 = 400;    
+			var bulletTop3 = 35;
+			var dx3 = Math.random()*5+2;
+			var dy3 = Math.random()*6+1;			
+			//bullet5
+			var bulletLeft4 = 50;    
+			var bulletTop4 = 35;
+			var dx4 = Math.random()*5+2;
+			var dy4 = Math.random()*6+1;	
+			
+		
+		function init(){
+			bullet = document.getElementById('bullet');
+			bullet1 = document.getElementById('bullet1');
+			bullet2 = document.getElementById('bullet2');
+			bullet3 = document.getElementById('bullet3');
+			bullet4 = document.getElementById('bullet4');			
+			ufo = document.getElementById('UFO');
+			score = document.getElementById('score'); 
+			palyingArea = document.getElementById('playingArea');
+	  
+			document.onkeydown = keyListener;
+	  
+			start();
+	}
+	
+		function start(){
+			movement();
+			updateScore(); 
+			if (contact()) {
+				gameOver();
+			  }else{
+				timer = setTimeout('start()',1);
+			}
+		}
+		
+	//detect collsion and move the ball	
+		function movement(){
+				detectCollision();
+				detectCollision1();
+				detectCollision2();
+				detectCollision3();
+				detectCollision4();
+				moveBullet();
+				moveBullet1();
+				moveBullet2();
+				moveBullet3();
+				moveBullet4();
+	}
+		
+	function contact(){
+		if(bulletTop > ufoTop && bulletTop < ufoTop + 32){
+			if(bulletLeft +5 > ufoLeft && bulletLeft + 5 < ufoLeft + 32){
+				return true;
+			}
+		}
+		if(bulletTop1 > ufoTop && bulletTop1 < ufoTop + 32){
+			if(bulletLeft1 +5 > ufoLeft && bulletLeft1 + 5 < ufoLeft + 32){
+				return true;
+			}
+		}
+		if(bulletTop2 > ufoTop && bulletTop2 < ufoTop + 32){
+			if(bulletLeft2 +5 > ufoLeft && bulletLeft2 + 5 < ufoLeft + 32){
+				return true;
+			}
+		}
+		if(bulletTop3 > ufoTop && bulletTop3 < ufoTop + 32){
+			if(bulletLeft3 +5 > ufoLeft && bulletLeft3 + 5 < ufoLeft + 32){
+				return true;
+			}
+		}
+		if(bulletTop4 > ufoTop && bulletTop4 < ufoTop + 32){
+			if(bulletLeft4 +5 > ufoLeft && bulletLeft4 + 5 < ufoLeft + 32){
+				return true;
+			}
+		}else{
+			return false;
+		}
+	}	
+	
+	function gameOver(){
+	  clearTimeout(timer);
+	  score.innerHTML += "      BOOM!!";
+	  score.style.backgroundColor = 'rgb(255,0,0)';
+	  score.style.fontSize = "larger";
+	
+	}
+	//bullet 1
+	function detectCollision(){
+	    if(collisionX()) {
+		   dx = dx * -1;
+		   }
+		if(collisionY()){
+		   dy = dy * -1;
+		   }
+    }
+	
+	function collisionX(){
+	  if (bulletLeft < 4 || bulletLeft > 480){
+	    return true;
+	  }else{
+	    return false;
+	  }
+	}
+	 
+	function collisionY() {
+	  if (bulletTop < 30){
+		return true;
+	  }if(bulletTop > 578){
+		return true;
+	  }else{
+	     return false;
+	   }
+	  }
+	  
+	 function moveBullet() {
+	  bulletLeft += dx;
+	  bulletTop += dy;
+	  bullet.style.left = bulletLeft + 'px';
+	  bullet.style.top = bulletTop + 'px';
+	  }
+	  
+	 //bullet 2
+	function detectCollision1(){
+	    if(collisionX1()) {
+		   dx1 = dx1 * -1;
+		   }
+		if(collisionY1()){
+		   dy1 = dy1 * -1;
+		   }
+    }
+	
+	function collisionX1(){
+	  if (bulletLeft1 < 4 || bulletLeft1 > 480){
+	    return true;
+	  }else{
+	    return false;
+	  }
+	}
+	 
+	function collisionY1() {
+	  if (bulletTop1 < 30){
+		return true;
+	  }if(bulletTop1 > 578){
+		return true;
+	  }else{
+	     return false;
+	   }
+	  }
+	  
+	 function moveBullet1() {
+	  bulletLeft1 += dx1;
+	  bulletTop1 += dy1;
+	  bullet1.style.left = bulletLeft1 + 'px';
+	  bullet1.style.top = bulletTop1 + 'px';
+	  }
+
+	//bullet 3
+	function detectCollision2(){
+	    if(collisionX2()) {
+		   dx2 = dx2 * -1;
+		   }
+		if(collisionY2()){
+		   dy2 = dy2 * -1;
+		   }
+    }
+	
+	function collisionX2(){
+	  if (bulletLeft2 < 4 || bulletLeft2 > 480){
+	    return true;
+	  }else{
+	    return false;
+	  }
+	}
+	 
+	function collisionY2() {
+	  if (bulletTop2 < 30){
+		return true;
+	  }if(bulletTop2 > 578){
+		return true;
+	  }else{
+	     return false;
+	   }
+	  }
+	  
+	 function moveBullet2() {
+	 
+	  bulletLeft2 += dx2;
+	  bulletTop2 += dy2;
+	  bullet2.style.left = bulletLeft2 + 'px';
+	  bullet2.style.top = bulletTop2 + 'px';
+	  }
+	
+		//bullet 4
+	function detectCollision3(){
+	    if(collisionX3()) {
+		   dx3 = dx3 * -1;
+		   }
+		if(collisionY3()){
+		   dy3 = dy3 * -1;
+		   }
+    }
+	
+	function collisionX3(){
+	  if (bulletLeft3 < 4 || bulletLeft3 > 480){
+	    return true;
+	  }else{
+	    return false;
+	  }
+	}
+	 
+	function collisionY3() {
+	  if (bulletTop3 < 30){
+		return true;
+	  }if(bulletTop3 > 578){
+		return true;
+	  }else{
+	     return false;
+	   }
+	  }
+	  
+	 function moveBullet3() {
+	  bulletLeft3 += dx3;
+	  bulletTop3 += dy3;
+	  bullet3.style.left = bulletLeft3 + 'px';
+	  bullet3.style.top = bulletTop3 + 'px';
+	  }
+	  
+	 //bullet 5
+	function detectCollision4(){
+	    if(collisionX4()) {
+		   dx4 = dx4 * -1;
+		   }
+		if(collisionY4()){
+		   dy4 = dy4 * -1;
+		   }
+    }
+	
+	function collisionX4(){
+	  if (bulletLeft4 < 4 || bulletLeft4 > 480){
+	    return true;
+	  }else{
+	    return false;
+	  }
+	}
+	 
+	function collisionY4() {
+	  if (bulletTop4 < 30){
+		return true;
+	  }if(bulletTop4 > 578){
+		return true;
+	  }else{
+	     return false;
+	   }
+	  }
+	  
+	 function moveBullet4() {
+	  bulletLeft4 += dx4;
+	  bulletTop4 += dy4;
+	  bullet4.style.left = bulletLeft4 + 'px';
+	  bullet4.style.top = bulletTop4 + 'px';
+	  } 
+	  
+	 function updateScore() {
+	  currentScore += 5;
+	  score.innerHTML = "Score:  " + currentScore;
+		   }
+		
+		function keyListener(e) {
+	if (!e){
+	e = window.event;
+	}
+	 if (e.keyCode==37 && ufoLeft > 5) { <!--Left-->
+	   ufoLeft -= 7;
+	   ufo.style.left = ufoLeft + 'px';
+	 }
+	 if (e.keyCode==39 && ufoLeft < 463) {   <!--Right-->
+	   ufoLeft += 7;
+	   ufo.style.left = ufoLeft + 'px';
+	 }
+	  if (e.keyCode==38 && ufoTop > 35) {    <!--UP-->
+	   ufoTop -= 7;
+	   ufo.style.top = ufoTop + 'px';
+	 }
+	  if (e.keyCode==40 && ufoTop < 563) {    <!--Down-->
+	   ufoTop += 7;
+	   ufo.style.top = ufoTop + 'px';
+	 }
+	}
+	
+	
+	</script>
+	
+	
+	
+	</head>
+ <body onLoad="init()">
+  <h1>Have Fun!!</h1>
+  <div id="playingArea">
+  <div id="UFO">
+        <img src="UFO.jpg">
+   </div> 
+   <div id="bullet">
+        <img src="bullet.jpg">
+    </div>     
+	<div id="bullet1">
+        <img src="bullet.jpg">
+    </div>   
+	<div id="bullet2">
+        <img src="bullet.jpg">
+    </div>
+	<div id="bullet3">
+        <img src="bullet.jpg">
+    </div>
+	<div id="bullet4">
+        <img src="bullet.jpg">
+    </div>
+
+
+  	
+    <div id="score">
+        Score: 0
+    </div>
+  </div>
+</body>
+</html>
